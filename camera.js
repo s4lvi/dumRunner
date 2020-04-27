@@ -1,6 +1,6 @@
 class Camera {
     constructor(pos) {
-        this.fov = 70
+        this.fov = 75
         this.pos = createVector(pos[0], pos[1]);
         this.rays = [];
         this.step = 0.5;

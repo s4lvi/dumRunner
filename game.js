@@ -105,10 +105,11 @@ function draw() {
         //fill(b);
         //rectMode(CENTER);
         let pixelRow = tileTypes[scene[i][2]].getPixelRow(scene[i][1]);
-        if (b) brightness(b);
-        else brightness(0);
+        //if (b) opacity(b);
+        //else opacity(0);
+        noSmooth();
         try {
-            image(pixelRow, i * w + w / 2 + 1, height/2-h/2, w+1, h);
+            image(pixelRow, i * w + w / 2 -1, height/2-h/2, w, h);
         } catch(err) {
             console.log(err);
         }
