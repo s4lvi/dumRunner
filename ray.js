@@ -55,6 +55,7 @@ class Ray {
                         closestIndex = floor(dist(pt.x, pt.y, x1, y1)*4);
                         closestType = b.type;
                     }
+                    break;
                 }    
             }
         }

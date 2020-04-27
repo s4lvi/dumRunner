@@ -56,6 +56,13 @@ class Camera {
         let scene = []
         stroke(0,255,0)
         ellipse(this.pos.x, this.pos.y, 8)
+        objects.sort(function (a,b) {
+            let centerpointA = [(a.a.x+a.b.x)/2,(a.a.y+a.b.y)/2];
+            let centerpointB = [(b.a.x+b.b.x)/2,(b.a.y+b.b.y)/2];
+            return dist(cam.pos.x, cam.pos.y, centerpointA[0], centerpointA[1]) -dist(cam.pos.x, cam.pos.y, centerpointB[0], centerpointB[1]);
+            //if (cam.pos.y >= a.a.y) return dist(cam.pos.x, cam.pos.y, a.a.x + TILE_SIZE/2, a.a.y  + TILE_SIZE/2) - dist(cam.pos.x, cam.pos.y, b.a.x + TILE_SIZE/2, b.a.y  + TILE_SIZE/2);
+            //else return dist(cam.pos.x, cam.pos.y, a.b.x + TILE_SIZE/2, a.b.y  + TILE_SIZE/2) - dist(cam.pos.x, cam.pos.y, b.b.x + TILE_SIZE/2, b.b.y  + TILE_SIZE/2);
+        }) 
         for (let i = 0; i < this.rays.length; i++) {
             let pt = this.rays[i].cast(objects);
             if (pt) {
@@ -68,5 +75,9 @@ class Camera {
             }
         }
         return scene;
+    }
+
+    compare(cam,boundary) {
+        return dist(cam.pos.x, cam.pos.y, boundary.a.x, boundary.a.y)
     }
 }

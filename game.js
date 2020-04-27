@@ -15,13 +15,15 @@ let mapWidth = TILE_SIZE * MAP_SIZE;
 let mapHeight = mapWidth;
 let border;
 let tileTypes;
-let wallTexture, outerTexture;
+let wallTexture, wall2Texture, outerTexture;
 let lastMouseX;
 let lastMouseY;
 let wSize = width * 2;
 let SHADING_TOGGLE = false;
 let TEXTURE_TOGGLE = true;
 let STROKE_TOGGLE = true;
+let counter = 0;
+let framecount = 0;
 function preload() {
     wallTexture = loadImage('outer.jpg');
     wall2Texture = loadImage('wall2.jpg');
@@ -44,8 +46,6 @@ function setup() {
     walls = walls.concat(border.getBoundaries());
     walls = walls.concat(mapLoader.walls);
     tiles = mapLoader.tiles;
-    console.log(walls);
-    console.log(tiles);
     lastMouseX = mouseX;
     lastMouseY = mouseY;
 }
@@ -79,6 +79,14 @@ function keyPressed() {
 }
   
 function draw() {
+    counter++;
+    framecount += frameRate();
+    if (counter == 100){
+
+        console.log(framecount / 100);
+        framecount = 0;
+        counter = 0;
+    }
 
     scale(2.0);
     if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
