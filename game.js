@@ -5,7 +5,7 @@ let tiles;
 
 const Y_AXIS = 1;
 const X_AXIS = 2;
-const SPEED = 2.5;
+const SPEED = 0.5;
 let width = 640;
 let height = width;
 const scene = [];
