@@ -19,7 +19,7 @@ let wallTexture;
 let lastMouseX;
 let lastMouseY;
 let wSize = width * 2;
-let SHADING_TOGGLE = true;
+let SHADING_TOGGLE = false;
 let TEXTURE_TOGGLE = true;
 let STROKE_TOGGLE = true;
 function preload() {
@@ -32,10 +32,6 @@ function setup() {
     walls = [];
     tiles = [];
     border = new WallTile([0,0], width);
-    // walls.push(new Boundary([0,0], [0,height]))
-    // walls.push(new Boundary([0,0], [width,0]))
-    // walls.push(new Boundary([width,0], [width,height]))
-    // walls.push(new Boundary([0,height], [width,height]))
     walls = walls.concat(border.getBoundaries());
     for (let i = 0; i < 350; i++) {
         let isCenterTile = true;
@@ -121,7 +117,9 @@ function draw() {
         const sq = 1/(scene[i][0]);
         const b = map(sq*12, 0, 1, 0, 255);
         const h = map(height/scene[i][0]*5, 0, width, 0, height);
-        if (SHADING_TOGGLE) tint(b != Infinity ? b : 0);
+        if (SHADING_TOGGLE) {
+            tint(b != Infinity ? b : 0);
+        }
         if (STROKE_TOGGLE) { 
             noStroke(); 
         } 
