@@ -3,8 +3,9 @@ class Camera {
         this.fov = 45
         this.pos = createVector(width / 2, height / 2);
         this.rays = [];
+        this.step = 0.5;
         this.heading = 0;
-        for (let a = -this.fov / 2; a < this.fov / 2; a += 0.5) {
+        for (let a = -this.fov / 2; a < this.fov / 2; a += this.step) {
             this.rays.push(new Ray([this.pos.x, this.pos.y], a));
         }
     }
@@ -21,10 +22,19 @@ class Camera {
         this.updateRays();
     }
 
+    canMove(v, tiles) {
+        let x = this.pos.x + cos(this.heading) * v+1;
+        let y = this.pos.y + sin(this.heading) * v+1;
+        for (let t of tiles) {
+            if (t.collidesWith([x,y])) return false
+        }
+        return true;
+    }
+
     rotate(angle) {
         this.heading += angle;
         let i = 0;
-        for (let a = -this.fov / 2; a < this.fov / 2; a += 0.5) {
+        for (let a = -this.fov / 2; a < this.fov / 2; a += this.step) {
             this.rays[i].setAngle(radians(a) + this.heading);
             i++;
         }
@@ -44,12 +54,18 @@ class Camera {
 
     cast(walls) {
         let scene = []
+        stroke(0,255,0)
+        ellipse(this.pos.x, this.pos.y, 8)
         for (let i = 0; i < this.rays.length; i++) {
             let pt = this.rays[i].cast(walls);
             if (pt) {
-                stroke(255, 50);
+                stroke(0,255,0,50);
+                
+                let d = p5.Vector.dist(this.pos, pt[0]);
+                const a = this.rays[i].d.heading() - this.heading;
+                d *= cos(a);
                 line(this.pos.x, this.pos.y, pt[0].x, pt[0].y);
-                scene[i] = pt[1];
+                scene[i] = d;
             }
         }
         return scene;
