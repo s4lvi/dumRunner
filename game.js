@@ -99,8 +99,8 @@ function draw() {
     }
 
     background(20);
-    setGradient(width,0,width,height/2,color(180),color(0),Y_AXIS);
-    setGradient(width,height/2,width,height,color(0),color(180),Y_AXIS);
+    setGradient(width,0,width,height/2,color(80),color(40),Y_AXIS);
+    setGradient(width,height/2,width,height,color(80),color(120),Y_AXIS);
 
     const scene = cam.cast(walls);
     const w = width / scene.length;
