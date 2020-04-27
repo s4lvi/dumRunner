@@ -20,7 +20,7 @@ class WallTile {
         let top = this.pos[1];
         let bottom = this.pos[1] + this.size;
 
-        if (point[0] > left && point[0] < right && point[1] > top && point[1] < bottom) return true;
+        if (point[0] > left && point[0] < right + 1 && point[1] > top && point[1] < bottom+1) return true;
         return false;
     }
 }

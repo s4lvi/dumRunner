@@ -6,19 +6,24 @@ let tiles;
 const Y_AXIS = 1;
 const X_AXIS = 2;
 const SPEED = 0.5;
-let width = 600;
-let height = 600;
+let mapWidth = 32*20;
+let mapHeight = mapWidth;
+let width = 640;
+let height = width;
 const scene = [];
 const TILE_SIZE = 16;
+let border;
 function setup() {
     cam = new Camera();
     createCanvas(width*2, height);
     walls = [];
     tiles = [];
-    walls.push(new Boundary([0,0], [0,height]))
-    walls.push(new Boundary([0,0], [width,0]))
-    walls.push(new Boundary([width,0], [width,height]))
-    walls.push(new Boundary([0,height], [width,height]))
+    border = new WallTile([0,0], width);
+    // walls.push(new Boundary([0,0], [0,height]))
+    // walls.push(new Boundary([0,0], [width,0]))
+    // walls.push(new Boundary([width,0], [width,height]))
+    // walls.push(new Boundary([0,height], [width,height]))
+    walls = walls.concat(border.getBoundaries());
     for (let i = 0; i < 500; i++) {
         let randX = int(Math.random() * floor(width/TILE_SIZE));
         let randY = int(Math.random() * floor(height/TILE_SIZE));
@@ -37,9 +42,9 @@ function draw() {
         cam.rotate(0.05);
     }
     if (keyIsDown(UP_ARROW)) {
-        if (cam.canMove(SPEED, tiles)) cam.move(SPEED);
+        if (cam.canMove(SPEED, tiles) && !cam.canMove(SPEED, [border])) cam.move(SPEED);
     } else if (keyIsDown(DOWN_ARROW)) {
-        if (cam.canMove(-SPEED, tiles)) cam.move(-SPEED);
+        if (cam.canMove(-SPEED, tiles) && !cam.canMove(-SPEED, [border])) cam.move(-SPEED);
     }
 
     background(20);
