@@ -2,7 +2,7 @@ class Sprite {
     constructor(image) {
         this.image = image;
         this.pixelRows = [];
-        for (let i = 0; i < this.image.width; i++) {
+        for (let i = 0; i < this.image.width*2; i++) {
             this.pixelRows[i] = this.image.get(i, 0, 1, 32);
         }
     }

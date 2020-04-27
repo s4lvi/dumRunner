@@ -6,24 +6,26 @@ let tiles;
 const Y_AXIS = 1;
 const X_AXIS = 2;
 const SPEED = 0.5;
-let width = 640;
+let width = 320;
 let height = width;
 const scene = [];
-const TILE_SIZE = 16;
+const TILE_SIZE = 8;
 const MAP_SIZE = 40;
 let mapWidth = TILE_SIZE * MAP_SIZE;
 let mapHeight = mapWidth;
 let border;
 let tileTypes;
 let wallTexture;
-
+let lastMouseX;
+let lastMouseY;
+let wSize = width * 2;
 function preload() {
     wallTexture = loadImage('wall.jpg');
   }
 
 function setup() {
     cam = new Camera([mapWidth/2 + TILE_SIZE/2, mapHeight/2 + TILE_SIZE/2]);
-    createCanvas(width*2, height);
+    createCanvas(wSize*2, wSize);
     walls = [];
     tiles = [];
     border = new WallTile([0,0], width);
@@ -32,7 +34,7 @@ function setup() {
     // walls.push(new Boundary([width,0], [width,height]))
     // walls.push(new Boundary([0,height], [width,height]))
     walls = walls.concat(border.getBoundaries());
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 350; i++) {
         let isCenterTile = true;
         let randX, randY;
         while (isCenterTile == true) {
@@ -47,7 +49,8 @@ function setup() {
     tileTypes = {
         "boundary": new Sprite(wallTexture)
     }
-
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
 }
 
 function checkCenterTile(x, y) {
@@ -73,11 +76,18 @@ function checkCenterTile(x, y) {
   
 function draw() {
 
+    scale(2.0);
     if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
         cam.rotate(-0.05);
     } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
         cam.rotate(0.05);
     }
+    // let rot = 1/(mouseX-lastMouseX) != Infinity ? 1/(mouseX-lastMouseX) : 0;
+    // cam.rotate(rot);
+    // console.log(mouseX);
+    // console.log("rot", rot);
+
+    lastMouseX = mouseX;
     if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
         if (cam.canMove(SPEED, tiles) && !cam.canMove(SPEED, [border])) cam.move(SPEED);
     } else if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
@@ -116,8 +126,6 @@ function draw() {
         //rect(i * w + w / 2 + 1, height / 2, w+1, h);
     }
     pop();
-
-    //cam.changePos(mouseX, mouseY);
 }
 
 function setGradient(x, y, w, h, c1, c2, axis) {

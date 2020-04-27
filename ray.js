@@ -52,7 +52,7 @@ class Ray {
                     if (ptDist < collision) {
                         collision = ptDist;
                         closest = pt;
-                        closestIndex = floor(dist(pt.x, pt.y, x1, y1));
+                        closestIndex = floor(dist(pt.x, pt.y, x1, y1)*4);
                         closestType = b.type;
                     }
                 }    
