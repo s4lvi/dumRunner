@@ -1,7 +1,7 @@
 class Camera {
-    constructor() {
+    constructor(pos) {
         this.fov = 45
-        this.pos = createVector(width / 2, height / 2);
+        this.pos = createVector(pos[0], pos[1]);
         this.rays = [];
         this.step = 0.5;
         this.heading = 0;

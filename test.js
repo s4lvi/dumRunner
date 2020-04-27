@@ -6,15 +6,16 @@ let tiles;
 const Y_AXIS = 1;
 const X_AXIS = 2;
 const SPEED = 0.5;
-let mapWidth = 32*20;
-let mapHeight = mapWidth;
 let width = 640;
 let height = width;
 const scene = [];
 const TILE_SIZE = 16;
+const MAP_SIZE = 40;
+let mapWidth = TILE_SIZE * MAP_SIZE;
+let mapHeight = mapWidth;
 let border;
 function setup() {
-    cam = new Camera();
+    cam = new Camera([mapWidth/2 + TILE_SIZE/2, mapHeight/2 + TILE_SIZE/2]);
     createCanvas(width*2, height);
     walls = [];
     tiles = [];
@@ -25,25 +26,50 @@ function setup() {
     // walls.push(new Boundary([0,height], [width,height]))
     walls = walls.concat(border.getBoundaries());
     for (let i = 0; i < 500; i++) {
-        let randX = int(Math.random() * floor(width/TILE_SIZE));
-        let randY = int(Math.random() * floor(height/TILE_SIZE));
+        let isCenterTile = true;
+        let randX, randY;
+        while (isCenterTile == true) {
+            randX = int(Math.random() * floor(width/TILE_SIZE));
+            randY = int(Math.random() * floor(height/TILE_SIZE));
+            isCenterTile = checkCenterTile(randX, randY);
+        }
         let b = new WallTile([randX*TILE_SIZE, randY*TILE_SIZE], TILE_SIZE);
         walls = walls.concat(b.getBoundaries());
         tiles.push(b);
     }
 }
 
+function checkCenterTile(x, y) {
+    let centerX =  MAP_SIZE/2;
+    let centerY =  MAP_SIZE/2;
+    let midTiles = [
+        [centerX, centerY],
+        [centerX+1, centerY],
+        [centerX-1, centerY],
+        [centerX, centerY+1],
+        [centerX+1, centerY+1],
+        [centerX-1, centerY+1],
+        [centerX, centerY-1],
+        [centerX+1, centerY-1],
+        [centerX-1, centerY-1],
+    ];
+    for (let tile of midTiles) {
+        if (tile[0] == x && tile[1] ==y) return true;
+    }
+    return false;
+}
+
   
 function draw() {
 
-    if (keyIsDown(LEFT_ARROW)) {
+    if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
         cam.rotate(-0.05);
-    } else if (keyIsDown(RIGHT_ARROW)) {
+    } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
         cam.rotate(0.05);
     }
-    if (keyIsDown(UP_ARROW)) {
+    if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
         if (cam.canMove(SPEED, tiles) && !cam.canMove(SPEED, [border])) cam.move(SPEED);
-    } else if (keyIsDown(DOWN_ARROW)) {
+    } else if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
         if (cam.canMove(-SPEED, tiles) && !cam.canMove(-SPEED, [border])) cam.move(-SPEED);
     }
 
