@@ -5,7 +5,7 @@ let tiles;
 
 const Y_AXIS = 1;
 const X_AXIS = 2;
-const SPEED = 0.5;
+const SPEED = 2.5;
 let width = 640;
 let height = width;
 const scene = [];
@@ -14,6 +14,13 @@ const MAP_SIZE = 40;
 let mapWidth = TILE_SIZE * MAP_SIZE;
 let mapHeight = mapWidth;
 let border;
+let tileTypes;
+let wallTexture;
+
+function preload() {
+    wallTexture = loadImage('wall.jpg');
+  }
+
 function setup() {
     cam = new Camera([mapWidth/2 + TILE_SIZE/2, mapHeight/2 + TILE_SIZE/2]);
     createCanvas(width*2, height);
@@ -37,6 +44,10 @@ function setup() {
         walls = walls.concat(b.getBoundaries());
         tiles.push(b);
     }
+    tileTypes = {
+        "boundary": new Sprite(wallTexture)
+    }
+
 }
 
 function checkCenterTile(x, y) {
@@ -88,12 +99,20 @@ function draw() {
     translate(width, 0);
     for (let i = 0; i < scene.length; i++) {
         noStroke();
-        const sq = 1/(scene[i]);
+        const sq = 1/(scene[i][0]);
         const b = map(sq*12, 0, 1, 0, 220);
-        const h = map(height/scene[i]*5, 0, width, 0, height);
-        fill(b);
-        rectMode(CENTER);
-        rect(i * w + w / 2 + 1, height / 2, w+1, h);
+        const h = map(height/scene[i][0]*5, 0, width, 0, height);
+        //fill(b);
+        //rectMode(CENTER);
+        let pixelRow = tileTypes[scene[i][2]].getPixelRow(scene[i][1]);
+        if (b) brightness(b);
+        else brightness(0);
+        try {
+            image(pixelRow, i * w + w / 2 + 1, height/2-h/2, w+1, h);
+        } catch(err) {
+            console.log(err);
+        }
+        //rect(i * w + w / 2 + 1, height / 2, w+1, h);
     }
     pop();
 

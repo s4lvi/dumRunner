@@ -1,6 +1,6 @@
 class Camera {
     constructor(pos) {
-        this.fov = 45
+        this.fov = 70
         this.pos = createVector(pos[0], pos[1]);
         this.rays = [];
         this.step = 0.5;
@@ -52,20 +52,19 @@ class Camera {
         ellipse(this.pos.x, this.pos.y, 4);
     }
 
-    cast(walls) {
+    cast(objects) {
         let scene = []
         stroke(0,255,0)
         ellipse(this.pos.x, this.pos.y, 8)
         for (let i = 0; i < this.rays.length; i++) {
-            let pt = this.rays[i].cast(walls);
+            let pt = this.rays[i].cast(objects);
             if (pt) {
                 stroke(0,255,0,50);
-                
                 let d = p5.Vector.dist(this.pos, pt[0]);
                 const a = this.rays[i].d.heading() - this.heading;
                 d *= cos(a);
                 line(this.pos.x, this.pos.y, pt[0].x, pt[0].y);
-                scene[i] = d;
+                scene[i] = [d, pt[2], pt[3]];
             }
         }
         return scene;

@@ -25,6 +25,8 @@ class Ray {
     cast(boundaries) {
         let collision = Infinity;
         let closest = null;
+        let closestIndex = null;
+        let closestType = null;
         for (let b of boundaries) {
             const x1 = b.a.x;
             const y1 = b.a.y;
@@ -50,11 +52,13 @@ class Ray {
                     if (ptDist < collision) {
                         collision = ptDist;
                         closest = pt;
+                        closestIndex = floor(dist(pt.x, pt.y, x1, y1));
+                        closestType = b.type;
                     }
                 }    
             }
         }
-        if (closest) return [closest, collision];
+        if (closest) return [closest, collision, closestIndex, closestType];
         return;
     }
 }
