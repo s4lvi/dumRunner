@@ -19,6 +19,9 @@ let wallTexture;
 let lastMouseX;
 let lastMouseY;
 let wSize = width * 2;
+let SHADING_TOGGLE = true;
+let TEXTURE_TOGGLE = true;
+let STROKE_TOGGLE = true;
 function preload() {
     wallTexture = loadImage('wall.jpg');
   }
@@ -73,6 +76,13 @@ function checkCenterTile(x, y) {
     return false;
 }
 
+function keyPressed() {
+    if (keyCode === SHIFT) {
+        SHADING_TOGGLE = !SHADING_TOGGLE;
+    } else if (keyCode === CONTROL) {
+        TEXTURE_TOGGLE = !TEXTURE_TOGGLE;
+    } 
+}
   
 function draw() {
 
@@ -108,22 +118,26 @@ function draw() {
     push();
     translate(width, 0);
     for (let i = 0; i < scene.length; i++) {
-        noStroke();
         const sq = 1/(scene[i][0]);
-        const b = map(sq*12, 0, 1, 0, 220);
+        const b = map(sq*12, 0, 1, 0, 255);
         const h = map(height/scene[i][0]*5, 0, width, 0, height);
-        //fill(b);
-        //rectMode(CENTER);
-        let pixelRow = tileTypes[scene[i][2]].getPixelRow(scene[i][1]);
-        //if (b) opacity(b);
-        //else opacity(0);
-        noSmooth();
-        try {
-            image(pixelRow, i * w + w / 2 -1, height/2-h/2, w, h);
-        } catch(err) {
-            console.log(err);
+        if (SHADING_TOGGLE) tint(b != Infinity ? b : 0);
+        if (STROKE_TOGGLE) { 
+            noStroke(); 
+        } 
+        if (TEXTURE_TOGGLE) {
+            let pixelRow = tileTypes[scene[i][2]].getPixelRow(scene[i][1]);
+            noSmooth();
+            try {
+                image(pixelRow, i * w + w / 2 , height/2-h/2, w, h);
+            } catch(err) {
+                console.log(err);
+            }
+        } else {
+            fill(b);
+            rectMode(CENTER);
+            rect(i * w + (w / 2) + 1, height / 2, w, h);
         }
-        //rect(i * w + w / 2 + 1, height / 2, w+1, h);
     }
     pop();
 }

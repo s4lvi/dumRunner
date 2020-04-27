@@ -13,4 +13,12 @@ class Sprite {
         }
         return this.pixelRows[i];
     }
+
+    getPixelRowShaded(i, v) {
+        while (i >= this.image.width){
+            i -= this.image.width;
+        }
+    
+        return this.pixelRows[i] * v;
+    }
 }
