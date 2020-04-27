@@ -1,12 +1,12 @@
 class WallTile {
-    constructor(pos, size) {
+    constructor(pos, size, type) {
         this.pos = pos;
         this.size = size;
         this.walls = [
-            new Boundary([pos[0], pos[1]], [pos[0], pos[1]+size]),
-            new Boundary([pos[0], pos[1]], [pos[0]+size, pos[1]]),
-            new Boundary([pos[0]+size, pos[1]], [pos[0]+size, pos[1]+size]),
-            new Boundary([pos[0], pos[1]+size], [pos[0]+size, pos[1]+size]),
+            new Boundary([pos[0], pos[1]], [pos[0], pos[1]+size], type),
+            new Boundary([pos[0], pos[1]], [pos[0]+size, pos[1]], type),
+            new Boundary([pos[0]+size, pos[1]], [pos[0]+size, pos[1]+size], type),
+            new Boundary([pos[0], pos[1]+size], [pos[0]+size, pos[1]+size], type),
         ];
     }
 

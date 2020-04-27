@@ -15,7 +15,7 @@ let mapWidth = TILE_SIZE * MAP_SIZE;
 let mapHeight = mapWidth;
 let border;
 let tileTypes;
-let wallTexture;
+let wallTexture, outerTexture;
 let lastMouseX;
 let lastMouseY;
 let wSize = width * 2;
@@ -23,31 +23,27 @@ let SHADING_TOGGLE = false;
 let TEXTURE_TOGGLE = true;
 let STROKE_TOGGLE = true;
 function preload() {
-    wallTexture = loadImage('wall.jpg');
+    wallTexture = loadImage('outer.jpg');
+    wall2Texture = loadImage('wall2.jpg');
+    outerTexture = loadImage('wall.jpg');
   }
 
 function setup() {
+    mapLoader = new MapLoader();
     cam = new Camera([mapWidth/2 + TILE_SIZE/2, mapHeight/2 + TILE_SIZE/2]);
     createCanvas(wSize*2, wSize);
     walls = [];
     tiles = [];
-    border = new WallTile([0,0], width);
-    walls = walls.concat(border.getBoundaries());
-    for (let i = 0; i < 350; i++) {
-        let isCenterTile = true;
-        let randX, randY;
-        while (isCenterTile == true) {
-            randX = int(Math.random() * floor(width/TILE_SIZE));
-            randY = int(Math.random() * floor(height/TILE_SIZE));
-            isCenterTile = checkCenterTile(randX, randY);
-        }
-        let b = new WallTile([randX*TILE_SIZE, randY*TILE_SIZE], TILE_SIZE);
-        walls = walls.concat(b.getBoundaries());
-        tiles.push(b);
-    }
     tileTypes = {
-        "boundary": new Sprite(wallTexture)
+        "wall1": new Sprite(wallTexture),
+        "wall2": new Sprite(wall2Texture),
+        "boundary": new Sprite(outerTexture)
     }
+    mapLoader.loadRandomMap(400, Object.keys(tileTypes));
+    border = new WallTile([0,0], width, "boundary");
+    walls = walls.concat(border.getBoundaries());
+    walls = walls.concat(mapLoader.walls);
+    tile = tiles.concat(mapLoader.tiles);
     lastMouseX = mouseX;
     lastMouseY = mouseY;
 }
