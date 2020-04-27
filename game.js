@@ -43,7 +43,9 @@ function setup() {
     border = new WallTile([0,0], width, "boundary");
     walls = walls.concat(border.getBoundaries());
     walls = walls.concat(mapLoader.walls);
-    tile = tiles.concat(mapLoader.tiles);
+    tiles = mapLoader.tiles;
+    console.log(walls);
+    console.log(tiles);
     lastMouseX = mouseX;
     lastMouseY = mouseY;
 }
