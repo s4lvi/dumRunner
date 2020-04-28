@@ -82,18 +82,27 @@ function keyPressed() {
     } 
 }
 
-function touchStarted() {
-    if (mouseX < (width + (width/2)) && mouseY > height/4 && mouseY < height - (height/4)) { // left side
-        cam.rotate(-TURNING);
-    } 
-    else if (mouseX > (width + (width/2)) && mouseY > height/4 && mouseY < height - (height/4)){ // right
-        cam.rotate(TURNING);
-    }
-    else if (mouseY < height/4) {
-        if (cam.canMove(SPEED, tiles) && !cam.canMove(SPEED, [border])) cam.move(SPEED);
-    } 
-    else if (mouseY > height-(height/4)) {
-        if (cam.canMove(-SPEED, tiles) && !cam.canMove(-SPEED, [border])) cam.move(-SPEED);
+function touchMoved() {
+    console.log(mouseX, mouseY);
+    let w = width*2;
+    let h = height*2;
+    let topQuarter = h/4;
+    let bottomQuarter = h - (h/4);
+    let centerLine = (w + (w/2));
+    console.log(topQuarter, bottomQuarter, centerLine);
+    if (mouseX > w) {
+        if (mouseX < centerLine && mouseY > topQuarter && mouseY < bottomQuarter) { // left side
+            cam.rotate(-TURNING);
+        } 
+        else if (mouseX > centerLine && mouseY > topQuarter && mouseY < bottomQuarter){ // right
+            cam.rotate(TURNING);
+        }
+        else if (mouseY < topQuarter) {
+            if (cam.canMove(SPEED, tiles) && !cam.canMove(SPEED, [border])) cam.move(SPEED);
+        } 
+        else if (mouseY > bottomQuarter) {
+            if (cam.canMove(-SPEED, tiles) && !cam.canMove(-SPEED, [border])) cam.move(-SPEED);
+        }
     }
 }
   
