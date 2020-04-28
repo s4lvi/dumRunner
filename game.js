@@ -6,6 +6,7 @@ let tiles;
 const Y_AXIS = 1;
 const X_AXIS = 2;
 const SPEED = 0.5;
+const TURNING = 0.05;
 let width = 320;
 let height = width;
 const scene = [];
@@ -79,20 +80,20 @@ function keyPressed() {
 }
   
 function draw() {
-    counter++;
-    framecount += frameRate();
-    if (counter == 100){
+    // counter++;
+    // framecount += frameRate();
+    // if (counter == 100){
 
-        console.log(framecount / 100);
-        framecount = 0;
-        counter = 0;
-    }
+    //     console.log(framecount / 100);
+    //     framecount = 0;
+    //     counter = 0;
+    // }
 
     scale(2.0);
     if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
-        cam.rotate(-0.05);
+        cam.rotate(-TURNING);
     } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
-        cam.rotate(0.05);
+        cam.rotate(TURNING);
     }
     // let rot = 1/(mouseX-lastMouseX) != Infinity ? 1/(mouseX-lastMouseX) : 0;
     // cam.rotate(rot);

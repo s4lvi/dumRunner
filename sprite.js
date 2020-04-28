@@ -5,6 +5,12 @@ class Sprite {
         for (let i = 0; i < this.image.width*2; i++) {
             this.pixelRows[i] = this.image.get(i, 0, 1, 32);
         }
+        this.heading = p5.Vector.fromAngle(radians(0));
+        this.pos = createVector(0,0);
+    }
+
+    setPos(x,y) {
+        this.pos = creaetVector(x,y);
     }
 
     getPixelRow(i) {

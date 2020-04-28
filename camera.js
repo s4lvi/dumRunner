@@ -54,7 +54,7 @@ class Camera {
 
     cast(objects) {
         let scene = []
-        stroke(0,255,0)
+        stroke(0,0,255)
         ellipse(this.pos.x, this.pos.y, 8)
         objects.sort(function (a,b) {
             let centerpointA = [(a.a.x+a.b.x)/2,(a.a.y+a.b.y)/2];
