@@ -25,6 +25,7 @@ let TEXTURE_TOGGLE = true;
 let STROKE_TOGGLE = true;
 let counter = 0;
 let framecount = 0;
+let afps = 0;
 function preload() {
     wallTexture = loadImage('outer.jpg');
     wall2Texture = loadImage('wall2.jpg');
@@ -34,7 +35,8 @@ function preload() {
 function setup() {
     mapLoader = new MapLoader();
     cam = new Camera([mapWidth/2 + TILE_SIZE/2, mapHeight/2 + TILE_SIZE/2]);
-    createCanvas(wSize*2, wSize);
+    var canvas = createCanvas(wSize*2, wSize);
+    canvas.parent('game-container');
     walls = [];
     tiles = [];
     tileTypes = {
@@ -42,13 +44,14 @@ function setup() {
         "wall2": new Sprite(wall2Texture),
         "boundary": new Sprite(outerTexture)
     }
-    mapLoader.loadRandomMap(400, Object.keys(tileTypes));
+    mapLoader.loadRandomMap(350, Object.keys(tileTypes));
     border = new WallTile([0,0], width, "boundary");
     walls = walls.concat(border.getBoundaries());
     walls = walls.concat(mapLoader.walls);
     tiles = mapLoader.tiles;
     lastMouseX = mouseX;
     lastMouseY = mouseY;
+    textSize(12);
 }
 
 function checkCenterTile(x, y) {
@@ -80,14 +83,6 @@ function keyPressed() {
 }
   
 function draw() {
-    // counter++;
-    // framecount += frameRate();
-    // if (counter == 100){
-
-    //     console.log(framecount / 100);
-    //     framecount = 0;
-    //     counter = 0;
-    // }
 
     scale(2.0);
     if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
@@ -145,6 +140,19 @@ function draw() {
         }
     }
     pop();
+
+
+    frameRate(60);
+    counter++;
+    framecount += frameRate();
+    if (counter == 20){
+        afps = int(framecount / 20);
+        framecount = 0;
+        counter = 0;
+    }
+    noStroke();
+    fill(0,255,0);
+    text(afps, width*2-18, 12);
 }
 
 function setGradient(x, y, w, h, c1, c2, axis) {

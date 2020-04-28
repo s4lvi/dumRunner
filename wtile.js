@@ -13,6 +13,10 @@ class WallTile {
     getBoundaries() {
         return this.walls;
     }
+    
+    getCenter() {
+        return createVector((this.pos.x + this.size)/2, (this.pos.y + this.size)/2);
+    }
 
     collidesWith(point) {
         let left = this.pos[0];

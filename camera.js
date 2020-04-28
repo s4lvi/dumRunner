@@ -23,6 +23,11 @@ class Camera {
     }
 
     canMove(v, tiles) {
+        tiles.sort(function (a,b) {
+            let aC = a.getCenter();
+            let bC = b.getCenter();
+            return dist(cam.pos.x, cam.pos.y, aC.x, aC.y) - dist(cam.pos.x, cam.pos.y, bC.x, bC.y);
+        })
         let x = this.pos.x + cos(this.heading) * v+1;
         let y = this.pos.y + sin(this.heading) * v+1;
         for (let t of tiles) {
