@@ -81,6 +81,21 @@ function keyPressed() {
         TEXTURE_TOGGLE = !TEXTURE_TOGGLE;
     } 
 }
+
+function touchStarted() {
+    if (mouseX < (width + (width/2)) && mouseY > height/4 && mouseY < height - (height/4)) { // left side
+        cam.rotate(-TURNING);
+    } 
+    else if (mouseX > (width + (width/2)) && mouseY > height/4 && mouseY < height - (height/4)){ // right
+        cam.rotate(TURNING);
+    }
+    else if (mouseY < height/4) {
+        if (cam.canMove(SPEED, tiles) && !cam.canMove(SPEED, [border])) cam.move(SPEED);
+    } 
+    else if (mouseY > height-(height/4)) {
+        if (cam.canMove(-SPEED, tiles) && !cam.canMove(-SPEED, [border])) cam.move(-SPEED);
+    }
+}
   
 function draw() {
 
