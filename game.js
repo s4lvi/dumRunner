@@ -83,13 +83,11 @@ function keyPressed() {
 }
 
 function touchMoved() {
-    console.log(mouseX, mouseY);
     let w = width*2;
     let h = height*2;
     let topQuarter = h/4;
     let bottomQuarter = h - (h/4);
     let centerLine = (w + (w/2));
-    console.log(topQuarter, bottomQuarter, centerLine);
     if (mouseX > w) {
         if (mouseX < centerLine && mouseY > topQuarter && mouseY < bottomQuarter) { // left side
             cam.rotate(-TURNING);
