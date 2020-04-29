@@ -5,8 +5,8 @@ let tiles;
 
 const Y_AXIS = 1;
 const X_AXIS = 2;
-const SPEED = 0.5;
-const TURNING = 0.05;
+const SPEED = 1;
+const TURNING = 0.075;
 const SCALE = 4.0;
 let width = 160;
 let height = width;
@@ -47,7 +47,7 @@ function setup() {
         "wall2": new Sprite(wall2Texture),
         "boundary": new Sprite(outerTexture)
     }
-    mapLoader.loadRandomMap(300, Object.keys(tileTypes));
+    mapLoader.loadRandomMap(250, Object.keys(tileTypes));
     border = new WallTile([0,0], width, "boundary");
     walls = walls.concat(border.getBoundaries());
     walls = walls.concat(mapLoader.walls);
