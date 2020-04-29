@@ -7,11 +7,12 @@ const Y_AXIS = 1;
 const X_AXIS = 2;
 const SPEED = 0.5;
 const TURNING = 0.05;
-let width = 320;
+const SCALE = 4.0;
+let width = 160;
 let height = width;
 const scene = [];
 const TILE_SIZE = 8;
-const MAP_SIZE = 40;
+const MAP_SIZE = 20;
 let mapWidth = TILE_SIZE * MAP_SIZE;
 let mapHeight = mapWidth;
 let border;
@@ -19,13 +20,15 @@ let tileTypes;
 let wallTexture, wall2Texture, outerTexture;
 let lastMouseX;
 let lastMouseY;
-let wSize = width * 2;
+let wSize = width * SCALE;
 let SHADING_TOGGLE = false;
 let TEXTURE_TOGGLE = true;
 let STROKE_TOGGLE = true;
 let counter = 0;
 let framecount = 0;
 let afps = 0;
+let moving = false;
+
 function preload() {
     wallTexture = loadImage('outer.jpg');
     wall2Texture = loadImage('wall2.jpg');
@@ -44,7 +47,7 @@ function setup() {
         "wall2": new Sprite(wall2Texture),
         "boundary": new Sprite(outerTexture)
     }
-    mapLoader.loadRandomMap(350, Object.keys(tileTypes));
+    mapLoader.loadRandomMap(300, Object.keys(tileTypes));
     border = new WallTile([0,0], width, "boundary");
     walls = walls.concat(border.getBoundaries());
     walls = walls.concat(mapLoader.walls);
@@ -82,9 +85,17 @@ function keyPressed() {
     } 
 }
 
-function touchMoved() {
-    let w = width*2;
-    let h = height*2;
+function touchStarted() {
+    moving = true;
+}
+
+function touchEnded() {
+    moving = false;
+}
+
+function touchMove() {
+    let w = width*SCALE;
+    let h = height*SCALE;
     let topQuarter = h/4;
     let bottomQuarter = h - (h/4);
     let centerLine = (w + (w/2));
@@ -106,7 +117,8 @@ function touchMoved() {
   
 function draw() {
 
-    scale(2.0);
+    scale(SCALE);
+    if (moving || mouseIsPressed) touchMove();
     if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
         cam.rotate(-TURNING);
     } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
@@ -164,7 +176,7 @@ function draw() {
     pop();
 
 
-    frameRate(60);
+    frameRate(30);
     counter++;
     framecount += frameRate();
     if (counter == 20){
