@@ -117,6 +117,7 @@ function touchMove() {
   
 function draw() {
 
+    noSmooth();
     scale(SCALE);
     if (moving || mouseIsPressed) touchMove();
     if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
@@ -154,7 +155,7 @@ function draw() {
         const b = map(sq*12, 0, 1, 0, 255);
         const h = map(height/scene[i][0]*5, 0, width, 0, height);
         if (SHADING_TOGGLE) {
-            tint(b != Infinity ? b : 0);
+            //tint(b != Infinity ? b : 0);
         }
         if (STROKE_TOGGLE) { 
             noStroke(); 
@@ -164,10 +165,15 @@ function draw() {
             noSmooth();
             try {
                 image(pixelRow, i * w + w / 2 , height/2-h/2, w, h);
+                //noStroke();
+                //fill(0, 255-b);
+                //rectMode(CENTER);
+                //rect(i * w + (w / 2) + 1, height / 2, w, h);
             } catch(err) {
                 console.log(err);
             }
         } else {
+            noStroke();
             fill(b);
             rectMode(CENTER);
             rect(i * w + (w / 2) + 1, height / 2, w, h);
